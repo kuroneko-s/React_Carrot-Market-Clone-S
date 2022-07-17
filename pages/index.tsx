@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="bg-slate-400 py-10 px-24 grid gap-10 min-h-screen">
-      <div className="bg-white p-7 rounded-2xl shadow-lg">
+    <div className="bg-slate-400 xl:place-content-center py-10 px-14 grid lg:grid-cols-2 xl:grid-cols-3 gap-10 min-h-screen">
+      <div className="bg-white black flex flex-col justify-between sm:bg-red-400 md:bg-teal-400 lg:bg-purple-300 xl:bg-indigo-300 2xl:bg-yellow-100 p-7 rounded-2xl shadow-lg">
         <span className="font-bold text-2xl">Select Item</span>
         <ul>
           {[1, 2, 3, 4, 5].map((n) => (
@@ -16,11 +16,7 @@ const Home: NextPage = () => {
             </div>
           ))}
         </ul>
-        {["A", "B", ""].map((c, i) => (
-          <li className="bg-red-500 py-2 empty:hidden" key={i}>
-            {c}
-          </li>
-        ))}
+
         <div className="flex justify-between mt-2 pt-2 border-t-2 border-dashed">
           <span>Total</span>
           <span className="font-bold">$38</span>
@@ -33,8 +29,9 @@ const Home: NextPage = () => {
           Checkout
         </button>
       </div>
-      <div className="bg-white overflow-hidden rounded-2xl shadow-lg">
-        <div className="bg-blue-500 p-6 pb-14">
+
+      <div className="bg-white overflow-hidden rounded-2xl shadow-lg group">
+        <div className="bg-blue-500 p-6 pb-14 xl:pb-44 landscape:bg-teal-300">
           <span className="text-white text-2xl">Profile</span>
         </div>
         <div className="rounded-3xl p-6 bg-white relative -top-5">
@@ -43,7 +40,7 @@ const Home: NextPage = () => {
               <span className="text-sm text-gray-400">Orders</span>
               <span className="font-bold">340</span>
             </div>
-            <div className="h-24 w-24 bg-red-400 rounded-full" />
+            <div className="h-24 w-24 bg-zinc-400 rounded-full group-hover:bg-yellow-100 transition-colors" />
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-400">Spent</span>
               <span className="font-bold">$2.310</span>
@@ -56,7 +53,8 @@ const Home: NextPage = () => {
         </div>
         <div></div>
       </div>
-      <div className="bg-white p-5 rounded-2xl shadow-lg">
+
+      <div className="bg-white p-5 rounded-2xl shadow-lg lg:col-span-2 xl:col-span-1">
         <div className="flex justify-between mb-5">
           <span>🔙</span>
           <div className="space-x-3">
