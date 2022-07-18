@@ -25,7 +25,7 @@ const ItemDetail: NextPage = () => {
             and that ni**a Winston or anybody else is in there, you the first
             motherfucker to get shot. You understand?
           </p>
-          <div className="flex justify-between items-center pt-3">
+          <div className="flex justify-between items-center pt-3 space-x-2">
             <button className="flex-1 py-3 rounded-md text-white shadow-sm bg-orange-400 focus:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
               Talk to seller
             </button>
