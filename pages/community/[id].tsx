@@ -59,10 +59,10 @@ const CommunityPostDetail: NextPage = () => {
         <div className="flex justify-start pt-5 pb-2 px-4 space-x-3">
           <div className="bg-slate-300 rounded-full h-8 w-8" />
           <div className="flex flex-col justify-start">
-            <p className="font-bold text-sm text-gray-900 cursor-pointer">
+            <span className="font-bold block text-sm text-gray-900 cursor-pointer">
               Steve Jebs
-            </p>
-            <p className="text-xs text-gray-600">2시간 전</p>
+            </span>
+            <span className="text-xs block text-gray-600">2시간 전</span>
             <p className="py-3">
               The best mandu restaurant is the one next to my house.
             </p>
