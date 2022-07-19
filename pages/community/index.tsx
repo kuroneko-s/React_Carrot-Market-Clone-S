@@ -5,7 +5,7 @@ const Community: NextPage = () => {
     <div className="pt-14 pb-4 px-4 space-y-4">
       {new Array(10).fill(1).map((_, i) => (
         <div key={i} className="flex flex-col items-start">
-          <span className="flex items-center px-2.5 py-0.5 my-2 bg-gray-300 rounded-xl text-xs">
+          <span className="flex items-center px-2.5 py-0.5 my-2 bg-gray-200 rounded-xl text-xs">
             동네질문
           </span>
           <span className="font-medium cursor-pointer">
