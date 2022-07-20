@@ -4,7 +4,7 @@ const ChatDetail: NextPage = () => {
   return (
     <div>
       <div>
-        <div />
+        <div className="" />
         <div>Hi how much are you selling them for?</div>
       </div>
       <div>
