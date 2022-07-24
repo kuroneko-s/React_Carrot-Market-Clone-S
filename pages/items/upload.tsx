@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import ButtonComponent from "../components/button_component";
-import InputComponent from "../components/input_component";
-import Layout from "../components/layout";
-import TextBox from "../components/textbox";
+import ButtonComponent from "../../components/button_component";
+import InputComponent from "../../components/input_component";
+import Layout from "../../components/layout";
+import TextBox from "../../components/textbox";
 
 const Upload: NextPage = () => {
   return (

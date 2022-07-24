@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
-import DivistionItem from "../components/division_item";
-import FloatingButton from "../components/floating_button";
-import QuesitionContext from "../components/quesition_context";
-import SubElements from "../components/sub_elements";
-import Layout from "./../components/layout";
+import DivistionItem from "../../components/division_item";
+import FloatingButton from "../../components/floating_button";
+import QuesitionContext from "../../components/quesition_context";
+import SubElements from "../../components/sub_elements";
+import Layout from "../../components/layout";
 
 const Community: NextPage = () => {
   return (

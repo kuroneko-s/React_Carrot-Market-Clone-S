@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import ButtonComponent from "../components/button_component";
-import InputComponent from "../components/input_component";
-import Layout from "./../components/layout";
+import ButtonComponent from "../../components/button_component";
+import InputComponent from "../../components/input_component";
+import Layout from "../../components/layout";
 
 function cls(...classnames: string[]) {
   return classnames.join(" ");

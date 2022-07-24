@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import InputComponent from "../components/input_component";
-import TextBox from "../components/textbox";
-import Layout from "./../components/layout";
+import InputComponent from "../../components/input_component";
+import TextBox from "../../components/textbox";
+import Layout from "../../components/layout";
 
 const LiveCreater: NextPage = () => {
   return (
