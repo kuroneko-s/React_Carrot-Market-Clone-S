@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { cls } from "./libs/utils";
 import Layout from "./components/layout";
+import ButtonComponent from "./components/button_component";
+import InputComponent from "./components/input_component";
 
 export default function Enter() {
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => setMethod("email");
   const onPhoneClick = () => setMethod("phone");
+
   return (
-    <Layout title="로그인" canGoBack hasTabBar>
-      <div className="mt-16 px-4">
+    <Layout title="로그인" hasTabBar>
+      <div className="mt-12">
         <h3 className="font-bold text-3xl text-center">Enter to Carrot</h3>
         <div className="mt-8">
           <div className="flex flex-col items-center">
@@ -39,37 +42,29 @@ export default function Enter() {
             </div>
           </div>
           <form className="flex flex-col mt-8">
-            <label className="text-sm font-medium text-gray-700">
-              {method === "email" ? "Email address" : null}
-              {method === "phone" ? "Phone number" : null}
-            </label>
-            <div className="mt-1">
-              {method === "email" ? (
-                <input
-                  type="email"
-                  placeholder="email"
-                  className="appearance-none w-full px-3 border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                  required
-                />
-              ) : null}
-              {method === "phone" ? (
-                <div className="flex rounded-md shadow-sm">
-                  <span className="flex items-center justify-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-sm text-gray-500 select-none">
-                    +82
-                  </span>
-                  <input
-                    type="number"
-                    className="py-2 px-4 appearance-none w-full border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md rounded-l-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                    required
-                  />
-                </div>
-              ) : null}
-            </div>
-            <button className="mt-5 bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none">
-              {method === "email" ? "Get login link" : null}
-              {method === "phone" ? "Get one-time password" : null}
-            </button>
+            {method === "email" ? (
+              <InputComponent
+                id="email"
+                labelContext="Email address"
+                placeholder="test@test.com"
+              />
+            ) : null}
+            {method === "phone" ? (
+              <InputComponent
+                id="phone"
+                labelContext="Phone number"
+                placeholder="test@test.com"
+                type="phone"
+                countryCode="+82"
+              />
+            ) : null}
+            <ButtonComponent
+              context={
+                method === "email" ? "Get login link" : "Get one-time password"
+              }
+            />
           </form>
+
           <div className="mt-8">
             <div className="relative">
               <div className="absolute w-full border-t border-gray-300" />

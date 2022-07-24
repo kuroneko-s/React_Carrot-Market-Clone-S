@@ -1,10 +1,13 @@
 import type { NextPage } from "next";
+import ButtonComponent from "../components/button_component";
+import InputComponent from "../components/input_component";
 import Layout from "../components/layout";
+import TextBox from "../components/textbox";
 
 const Upload: NextPage = () => {
   return (
     <Layout canGoBack>
-      <div className="py-14 px-4 space-y-4">
+      <div className="space-y-4">
         <div>
           <label className="flex justify-center items-center cursor-pointer w-full h-56 border-2 border-dashed rounded-md border-gray-400 text-gray-500 hover:border-orange-400 hover:text-orange-400">
             <svg
@@ -25,43 +28,21 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <div className="flex flex-col justify-start">
-          <label htmlFor="name" className="text-sm font-medium">
-            Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            className="mt-1 appearance-none w-full px-3 border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-            placeholder="홍길동"
-          />
-        </div>
-        <div className="flex flex-col justify-start">
-          <label className="text-sm font-medium">Price</label>
-          <div className="flex relative mt-1">
-            <div className="absolute flex justify-center items-center left-3 h-full pointer-events-none text-sm text-gray-500">
-              <span>$</span>
-            </div>
-            <input
-              type="text"
-              className="pl-7 pr-12 appearance-none w-full px-3 border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-              placeholder="0.00"
-            />
-            <div className="absolute flex justify-center items-center right-3 h-full pointer-events-none text-gray-700">
-              <span>USD</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col justify-start">
-          <label className="text-sm font-medium">Description</label>
-          <textarea
-            className="mt-1 appearance-none w-full px-3 border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-            rows={4}
-          />
-        </div>
-        <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none">
-          Upload product
-        </button>
+        <InputComponent id="name" placeholder="홍길동" labelContext="Name" />
+        <InputComponent
+          id="price"
+          placeholder="0.00"
+          labelContext="Price"
+          type="price"
+          currency="USD"
+          currencySymbol="$"
+        />
+        <TextBox
+          buttonContext="Upload product"
+          placeholder="당근할 품목에 대한 설명을 작성해주세요!"
+          labelName="Description"
+          hasLabel
+        />
       </div>
     </Layout>
   );

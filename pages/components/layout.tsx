@@ -24,7 +24,7 @@ export default function Layout({
     <div>
       <div
         className={cls(
-          "bg-white w-full text-lg max-w-lg font-medium py-3 px-5 fixed text-gray-700 border-b top-0 flex items-center",
+          "bg-white w-full text-lg max-w-lg font-medium py-3 fixed text-gray-900 border-b top-0 flex items-center",
           !canGoBack ? "justify-center" : ""
         )}
       >
@@ -48,7 +48,9 @@ export default function Layout({
         ) : null}
         {title ? <span>{title}</span> : null}
       </div>
-      <div className={cls("pt-12", hasTabBar ? "pb-28" : "")}>{children}</div>
+      <div className={cls("pt-16", hasTabBar ? "pb-28" : "pb-5")}>
+        {children}
+      </div>
       {hasTabBar ? (
         <nav className="bg-white w-full max-w-lg text-gray-800 border-t fixed bottom-0 pb-5 pt-3 px-8 flex justify-between items-center">
           <Link href={"/"}>
