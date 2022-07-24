@@ -24,7 +24,7 @@ export default function Layout({
     <div>
       <div
         className={cls(
-          "bg-white w-full text-lg max-w-lg font-medium py-3 fixed text-gray-900 border-b top-0 flex items-center",
+          "bg-white w-full text-lg max-w-xl font-medium py-3 fixed text-gray-900 border-b top-0 flex items-center",
           !canGoBack ? "justify-center" : ""
         )}
       >
@@ -52,7 +52,7 @@ export default function Layout({
         {children}
       </div>
       {hasTabBar ? (
-        <nav className="bg-white w-full max-w-lg text-gray-800 border-t fixed bottom-0 pb-5 pt-3 px-8 flex justify-between items-center">
+        <nav className="bg-white w-full max-w-xl text-gray-800 border-t fixed bottom-0 pb-5 pt-3 px-8 flex justify-between items-center">
           <Link href={"/"}>
             <a className="flex flex-col items-center space-y-2">
               <svg
