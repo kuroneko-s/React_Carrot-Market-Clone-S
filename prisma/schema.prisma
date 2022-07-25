@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// vitess가 RDB가 아니기 때문에 FK로 인한 에러가 안난다. ( mysql은 FK 유무에 따른 에러 발생시켜줌 )
+// vitess는 어디까지나 MySql 호환되는 DB일 뿐이지 완전한 RDB가 아닌 듯. 그래서 FK로 인한 에러 확인을 prisma한테 시켜준다.
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"] // referentialIntegrity => 객체를 연결할때 그 객체가 존재해야 한다 ( FK )
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma" // 이 작업은 prisma가 하라는 설정
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  phone Int? @unique // not required
+  email String? @unique // not required
+  avatar String? 
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt // User가 update 될때 갱신되도록 
+}
