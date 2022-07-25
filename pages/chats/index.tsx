@@ -5,7 +5,7 @@ import Layout from "../../components/layout";
 const Chats: NextPage = () => {
   return (
     <Layout title="채팅" hasTabBar>
-      <div className="px-4 divide-y-[1px]">
+      <div className="divide-y-[1px]">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Profile
             key={i}

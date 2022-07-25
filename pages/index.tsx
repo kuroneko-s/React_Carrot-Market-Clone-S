@@ -6,7 +6,7 @@ import ItemComponent from "../components/item_component";
 const Home: NextPage = () => {
   return (
     <Layout title="홈" hasTabBar>
-      <div className="flex flex-col px-2 space-y-5 divide-y-[1px]">
+      <div className="flex flex-col space-y-5 divide-y-[1px]">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <ItemComponent
             key={i}
@@ -17,7 +17,10 @@ const Home: NextPage = () => {
             lovedCount={5}
           />
         ))}
-        <FloatingButton pathData={"M12 6v6m0 0v6m0-6h6m-6 0H6"} />
+        <FloatingButton
+          pathData={"M12 6v6m0 0v6m0-6h6m-6 0H6"}
+          url="/items/upload"
+        />
       </div>
     </Layout>
   );

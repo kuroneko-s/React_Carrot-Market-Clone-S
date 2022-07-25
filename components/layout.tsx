@@ -24,7 +24,7 @@ export default function Layout({
     <div>
       <div
         className={cls(
-          "bg-white w-full text-lg max-w-xl font-medium py-3 fixed text-gray-900 border-b top-0 flex items-center",
+          "bg-white w-full text-lg max-w-xl font-medium py-3 px-4 fixed text-gray-900 border-b top-0 flex items-center",
           !canGoBack ? "justify-center" : ""
         )}
       >
@@ -48,7 +48,7 @@ export default function Layout({
         ) : null}
         {title ? <span>{title}</span> : null}
       </div>
-      <div className={cls("pt-16", hasTabBar ? "pb-28" : "pb-5")}>
+      <div className={cls("pt-16 px-4", hasTabBar ? "pb-28" : "pb-5")}>
         {children}
       </div>
       {hasTabBar ? (

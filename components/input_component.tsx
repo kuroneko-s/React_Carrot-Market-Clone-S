@@ -2,7 +2,7 @@ interface InputComponentProps {
   labelContext: string;
   placeholder: string;
   id: string;
-  type?: string;
+  type?: "text" | "price" | "phone";
   currency?: string;
   currencySymbol?: string;
   countryCode?: string;

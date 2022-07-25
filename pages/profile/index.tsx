@@ -6,10 +6,11 @@ import RoundButton from "../../components/round_button";
 const Profile: NextPage = () => {
   return (
     <Layout title="나의 당근" hasTabBar>
-      <div className="px-4 space-y-6">
+      <div className="space-y-6">
         <ProfileComponent.default
           context="Steve Jebs"
           subContext="View profile &rarr;"
+          url="/profile/edit"
         />
 
         <div className="flex items-center justify-between px-12">

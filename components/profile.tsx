@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cls } from "../libs/utils";
 
 interface ProfileProps {
@@ -5,6 +6,7 @@ interface ProfileProps {
   subContext: string;
   isSmall?: boolean;
   noneText?: boolean;
+  url?: string;
 }
 
 const Profile = ({
@@ -12,6 +14,7 @@ const Profile = ({
   subContext = "",
   isSmall,
   noneText,
+  url = "",
 }: ProfileProps) => {
   return (
     <div className="flex items-center  py-3 space-x-3">
@@ -31,14 +34,16 @@ const Profile = ({
           {context}
         </p>
         {subContext ? (
-          <p
-            className={cls(
-              "text-gray-600 cursor-pointer",
-              isSmall ? "text-sm" : ""
-            )}
-          >
-            {subContext}
-          </p>
+          <Link href={url}>
+            <a
+              className={cls(
+                "text-gray-600 cursor-pointer",
+                isSmall ? "text-sm" : ""
+              )}
+            >
+              {subContext}
+            </a>
+          </Link>
         ) : null}
 
         {noneText ? (
