@@ -4,6 +4,7 @@ import Layout from "../components/layout";
 import ButtonComponent from "../components/button_component";
 import InputComponent from "../components/input_component";
 import { useForm } from "react-hook-form";
+import useMutation from "./../libs/client/useMutation";
 
 interface EnterForm {
   email?: string;
@@ -11,6 +12,7 @@ interface EnterForm {
 }
 
 export default function Enter() {
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const [submitting, setSubmitting] = useState(false);
   const { register, reset, handleSubmit } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
@@ -22,17 +24,10 @@ export default function Enter() {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
-    setSubmitting(true);
-    fetch("/api/users/data", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(() => setSubmitting(false));
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
   };
-
+  console.log(loading, data, error);
   return (
     <Layout title="로그인" hasTabBar>
       <div className="mt-12">
