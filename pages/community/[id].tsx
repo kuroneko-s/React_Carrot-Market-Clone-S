@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import Button from "../../components/button_component";
-import Comment from "../../components/comment";
-import DivistionItem from "../../components/division_item";
-import Profile from "../../components/profile";
-import QuesitionContext from "../../components/quesition_context";
-import SubElements from "../../components/sub_elements";
-import TextBox from "../../components/textbox";
-import Layout from "../../components/layout";
+import Button from "@components/button_component";
+import Comment from "@components/comment";
+import DivistionItem from "@components/division_item";
+import Profile from "@components/profile";
+import QuesitionContext from "@components/quesition_context";
+import SubElements from "@components/sub_elements";
+import TextBox from "@components/textbox";
+import Layout from "@components/layout";
 
 const CommunityPostDetail: NextPage = () => {
   return (

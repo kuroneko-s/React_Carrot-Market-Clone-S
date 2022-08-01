@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { cls } from "../libs/server/utils";
-import Layout from "../components/layout";
-import ButtonComponent from "../components/button_component";
-import InputComponent from "../components/input_component";
 import { useForm } from "react-hook-form";
-import useMutation from "./../libs/client/useMutation";
+import { cls } from "@libs/server/utils";
+import Layout from "@components/layout";
+import ButtonComponent from "@components/button_component";
+import InputComponent from "@components/input_component";
+import useMutation from "@libs/client/useMutation";
 
 interface EnterForm {
   email?: string;

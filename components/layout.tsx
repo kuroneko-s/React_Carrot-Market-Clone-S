@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { cls } from "../libs/server/utils";
+import { cls } from "@libs/server/utils";
 
 interface LayoutProps {
   title?: string;

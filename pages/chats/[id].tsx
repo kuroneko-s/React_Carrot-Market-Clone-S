@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import ChatComponent from "../../components/chat_component";
-import InputMessage from "../../components/input_message";
-import Layout from "../../components/layout";
+import ChatComponent from "@components/chat_component";
+import InputMessage from "@components/input_message";
+import Layout from "@components/layout";
 
 const ChatDetail: NextPage = () => {
   return (

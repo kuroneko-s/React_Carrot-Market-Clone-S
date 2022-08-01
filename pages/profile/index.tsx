@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import * as ProfileComponent from "../../components/profile";
-import RoundButton from "../../components/round_button";
+import Layout from "@components/layout";
+import * as ProfileComponent from "@components/profile";
+import RoundButton from "@components/round_button";
 
 const Profile: NextPage = () => {
   return (
