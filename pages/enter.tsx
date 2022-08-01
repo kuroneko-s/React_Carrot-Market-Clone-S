@@ -1,13 +1,37 @@
 import { useState } from "react";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/server/utils";
 import Layout from "../components/layout";
 import ButtonComponent from "../components/button_component";
 import InputComponent from "../components/input_component";
+import { useForm } from "react-hook-form";
+
+interface EnterForm {
+  email?: string;
+  phone?: string;
+}
 
 export default function Enter() {
+  const [submitting, setSubmitting] = useState(false);
+  const { register, reset, handleSubmit } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+  const onValid = (data: EnterForm) => {
+    setSubmitting(true);
+    fetch("/api/users/data", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => setSubmitting(false));
+  };
 
   return (
     <Layout title="로그인" hasTabBar>
@@ -41,12 +65,13 @@ export default function Enter() {
               </button>
             </div>
           </div>
-          <form className="flex flex-col mt-8">
+          <form className="flex flex-col mt-8" onSubmit={handleSubmit(onValid)}>
             {method === "email" ? (
               <InputComponent
                 id="email"
                 labelContext="Email address"
                 placeholder="test@test.com"
+                register={register("email")}
               />
             ) : null}
             {method === "phone" ? (
@@ -56,11 +81,16 @@ export default function Enter() {
                 placeholder="test@test.com"
                 type="phone"
                 countryCode="+82"
+                register={register("phone")}
               />
             ) : null}
             <ButtonComponent
               context={
-                method === "email" ? "Get login link" : "Get one-time password"
+                submitting
+                  ? "Loading..."
+                  : method === "email"
+                  ? "Get login link"
+                  : "Get one-time password"
               }
             />
           </form>

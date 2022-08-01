@@ -6,6 +6,7 @@ interface InputComponentProps {
   currency?: string;
   currencySymbol?: string;
   countryCode?: string;
+  register: any;
 }
 
 const InputComponent = ({
@@ -16,6 +17,7 @@ const InputComponent = ({
   currency,
   currencySymbol,
   countryCode,
+  register,
 }: InputComponentProps) => {
   return (
     <div className="flex flex-col justify-start">
@@ -33,6 +35,7 @@ const InputComponent = ({
             type="text"
             className="pl-7 pr-12 appearance-none w-full px-3 border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             placeholder={placeholder}
+            {...register}
           />
           <div className="absolute flex justify-center items-center right-3 h-full pointer-events-none text-gray-700">
             <span>{currency}</span>
@@ -46,6 +49,7 @@ const InputComponent = ({
           type="text"
           className="mt-1 appearance-none w-full px-3 border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
           placeholder={placeholder}
+          {...register}
         />
       ) : null}
 
@@ -58,6 +62,7 @@ const InputComponent = ({
             id={id}
             type="number"
             className="py-2 px-4 appearance-none w-full border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md rounded-l-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            {...register}
             required
           />
         </div>
