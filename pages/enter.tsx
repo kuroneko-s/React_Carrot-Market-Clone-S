@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { cls } from "@libs/server/utils";
 import Layout from "@components/layout";
 import ButtonComponent from "@components/button_component";
 import InputComponent from "@components/input_component";
 import useMutation from "@libs/client/useMutation";
+import { useRouter } from "next/router";
 
 interface EnterForm {
   email?: string;
@@ -20,6 +21,8 @@ interface MutationResult {
 }
 
 export default function Enter() {
+  const router = useRouter();
+
   const [enter, { loading, data, error }] =
     useMutation<MutationResult>("/api/users/enter");
   const [
@@ -30,6 +33,7 @@ export default function Enter() {
   const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =
     useForm<TokenForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
+
   const onEmailClick = () => {
     reset();
     setMethod("email");
@@ -46,7 +50,12 @@ export default function Enter() {
     if (tokenLoading) return;
     confirmToken(validForm);
   };
-  console.log(loading, data, error);
+
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push("/");
+    }
+  }, [tokenData, router]);
   return (
     <Layout title="로그인" hasTabBar>
       <div className="mt-12">
