@@ -3,11 +3,42 @@ import ButtonComponent from "@components/button_component";
 import InputComponent from "@components/input_component";
 import Layout from "@components/layout";
 import TextBox from "@components/textbox";
+import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { Product } from "@prisma/client";
+import useSWR from "swr";
+
+interface UploadProductForm {
+  name: string;
+  price: number;
+  description: string;
+}
+
+interface UploadProductResponse {
+  ok: boolean;
+  product: Product;
+}
 
 const Upload: NextPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<UploadProductForm>();
+  const [uploadProduct, { loading, data, error }] =
+    useMutation<UploadProductResponse>("/api/products");
+  const onValid = (data: UploadProductForm) => {
+    if (loading) return;
+    uploadProduct(data);
+  };
+
+  useEffect(() => {
+    if (data?.ok) {
+      router.push(`/products/${data.product.id}`);
+    }
+  }, [data, router]);
   return (
     <Layout canGoBack>
-      <div className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit(onValid)}>
         <div>
           <label className="flex justify-center items-center cursor-pointer w-full h-56 border-2 border-dashed rounded-md border-gray-400 text-gray-500 hover:border-orange-400 hover:text-orange-400">
             <svg
@@ -28,7 +59,12 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <InputComponent id="name" placeholder="홍길동" labelContext="Name" />
+        <InputComponent
+          id="name"
+          placeholder="홍길동"
+          labelContext="Name"
+          register={register("name", { required: true })}
+        />
         <InputComponent
           id="price"
           placeholder="0.00"
@@ -36,14 +72,16 @@ const Upload: NextPage = () => {
           type="price"
           currency="USD"
           currencySymbol="$"
+          register={register("price", { required: true })}
         />
         <TextBox
-          buttonContext="Upload product"
+          buttonContext={loading ? "Loading..." : "Upload product"}
           placeholder="당근할 품목에 대한 설명을 작성해주세요!"
           labelName="Description"
           hasLabel
+          register={register("description", { required: true })}
         />
-      </div>
+      </form>
     </Layout>
   );
 };

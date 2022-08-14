@@ -1,20 +1,38 @@
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
+
 interface ItemComponentProps {
   title: string;
   subTitle: string;
   price: string;
   commentCount: number;
   lovedCount: number;
+  id: string;
 }
 
 const ItemComponent = ({
+  id,
   title,
   subTitle,
   price,
   commentCount = 0,
   lovedCount = 0,
 }: ItemComponentProps) => {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    ref.current?.addEventListener("click", () =>
+      router.push(`/products/${id}`)
+    );
+  }, [router, id]);
+
   return (
-    <div className="flex justify-between px-2 pt-5 first:pt-0 cursor-pointer">
+    <div
+      id={id}
+      ref={ref}
+      className="flex justify-between px-2 pt-5 first:pt-0 cursor-pointer"
+    >
       <div className="flex space-x-4">
         <div className="bg-gray-400 rounded-md w-20 h-20" />
         <div className="flex flex-col justify-center">

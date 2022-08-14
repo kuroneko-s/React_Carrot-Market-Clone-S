@@ -1,3 +1,5 @@
+import type { UseFormRegisterReturn } from "react-hook-form";
+
 interface InputComponentProps {
   labelContext: string;
   placeholder: string;
@@ -6,7 +8,7 @@ interface InputComponentProps {
   currency?: string;
   currencySymbol?: string;
   countryCode?: string;
-  register: any;
+  register: UseFormRegisterReturn;
 }
 
 const InputComponent = ({
