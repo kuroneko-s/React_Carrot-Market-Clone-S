@@ -8,9 +8,42 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user },
+  } = req;
 
-  const alreadyExists = await client.product.findFirst({});
+  const productId = id ? +id.toString() : -1;
+
+  const alreadyExists = await client.fav.findFirst({
+    where: {
+      productId,
+      userId: user?.id,
+    },
+  });
+
+  if (alreadyExists) {
+    await client.fav.delete({
+      where: {
+        id: alreadyExists.id,
+      },
+    });
+  } else {
+    await client.fav.create({
+      data: {
+        user: {
+          connect: {
+            id: user?.id,
+          },
+        },
+        product: {
+          connect: {
+            id: productId,
+          },
+        },
+      },
+    });
+  }
 
   res.json({
     ok: true,

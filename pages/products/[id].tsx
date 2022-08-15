@@ -3,10 +3,12 @@ import ButtonWith from "@components/button_with";
 import Layout from "@components/layout";
 import Profile from "@components/profile";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { Product, User } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -16,16 +18,42 @@ interface ItemDetailResponse {
   ok: boolean;
   product: ProductWithUser;
   relatedProducts: ProductWithUser[];
+  isLiked: boolean;
 }
 
 const ItemDetail: NextPage = () => {
+  const { user, isLoading } = useUser();
   const router = useRouter();
-  console.log(router.query);
-  // optional query 사용시 이렇게 사용함
-  const { data } = useSWR<ItemDetailResponse>(
+  const { mutate } = useSWRConfig();
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
+    // optional query 사용시 이렇게 사용함
     router.query.id ? `/api/products/${router.query.id}` : null
   );
+  const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+
   // Loading 처리 작업 필요
+
+  const onFavClick = () => {
+    toggleFav({});
+    if (!data) return;
+
+    boundMutate(
+      (prev: any) => ({
+        ...data,
+        isLiked: !prev.isLiked,
+      }),
+      false
+    );
+
+    // refetch and mutate 해줌
+    /* mutate(
+      "/api/users/me",
+      (prev: any) => ({
+        ok: !prev.ok,
+      }),
+      false
+    ); */
+  };
 
   return (
     <Layout canGoBack>
@@ -48,7 +76,13 @@ const ItemDetail: NextPage = () => {
             </p>
             <ButtonWith
               buttonContext="Talk to seller"
-              subBtnPath="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              subBtnPath={
+                data?.isLiked
+                  ? "M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  : "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              }
+              clickHandler={onFavClick}
+              isLiked={data?.isLiked}
             />
           </div>
         </div>
