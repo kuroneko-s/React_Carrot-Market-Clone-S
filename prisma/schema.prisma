@@ -15,16 +15,19 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  phone     String?   @unique // not required
-  email     String?   @unique // not required
-  avatar    String?
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt // User가 update 될때 갱신되도록 
-  tokens    Token[]
-  products  Product[]
-  favs      Fav[]
+  id         Int         @id @default(autoincrement())
+  phone      String?     @unique // not required
+  email      String?     @unique // not required
+  avatar     String?
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt // User가 update 될때 갱신되도록 
+  tokens     Token[]
+  products   Product[]
+  favs       Fav[]
+  posts      Post[]
+  answers    Answer[]
+  wonderings Wondering[]
 }
 
 model Token {
@@ -55,6 +58,38 @@ model Fav {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id         Int         @id @default(autoincrement())
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  question   String      @db.MediumText
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  answers    Answer[]
+  wonderings Wondering[]
+}
+
+model Answer {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  answer    String   @db.MediumText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Wondering {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -4,12 +4,16 @@ interface SubElementsProps {
   questionCount?: number;
   answerCount?: number;
   details?: boolean;
+  wonderClickHandler?: any;
+  isWondering: boolean;
 }
 
 const SubElements = ({
   questionCount = 0,
   answerCount = 0,
+  wonderClickHandler,
   details,
+  isWondering = false,
 }: SubElementsProps) => {
   return (
     <div
@@ -18,7 +22,13 @@ const SubElements = ({
         details ? "px-4" : ""
       )}
     >
-      <span className="flex justify-center items-center space-x-1">
+      <button
+        onClick={wonderClickHandler}
+        className={cls(
+          "flex justify-center items-center space-x-1",
+          isWondering ? "text-green-700" : ""
+        )}
+      >
         <svg
           className="w-4 h-4"
           fill="none"
@@ -34,7 +44,7 @@ const SubElements = ({
           ></path>
         </svg>
         <span>궁금해요 {questionCount}</span>
-      </span>
+      </button>
       <span className="flex justify-center items-center space-x-1">
         <svg
           className="w-4 h-4"
