@@ -5,7 +5,7 @@ interface SubElementsProps {
   answerCount?: number;
   details?: boolean;
   wonderClickHandler?: any;
-  isWondering: boolean;
+  isWondering?: boolean;
 }
 
 const SubElements = ({

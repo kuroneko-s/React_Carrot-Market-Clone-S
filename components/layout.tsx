@@ -54,7 +54,12 @@ export default function Layout({
       {hasTabBar ? (
         <nav className="bg-white w-full max-w-xl text-gray-800 border-t fixed bottom-0 pb-5 pt-3 px-8 flex justify-between items-center">
           <Link href={"/"}>
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2",
+                router.pathname === "/" ? "text-orange-500" : ""
+              )}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -73,7 +78,14 @@ export default function Layout({
             </a>
           </Link>
           <Link href={"/community"}>
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2",
+                router.pathname.startsWith("/community")
+                  ? "text-orange-500"
+                  : ""
+              )}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -92,7 +104,12 @@ export default function Layout({
             </a>
           </Link>
           <Link href={"/chats"}>
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2",
+                router.pathname.startsWith("/chats") ? "text-orange-500" : ""
+              )}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -111,7 +128,12 @@ export default function Layout({
             </a>
           </Link>
           <Link href={"/live"}>
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2",
+                router.pathname.startsWith("/live") ? "text-orange-500" : ""
+              )}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -130,7 +152,12 @@ export default function Layout({
             </a>
           </Link>
           <Link href={"/profile"}>
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2",
+                router.pathname.startsWith("/profile") ? "text-orange-500" : ""
+              )}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"

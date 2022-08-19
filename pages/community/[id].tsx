@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { Answer, Post, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -30,14 +32,27 @@ interface CommunityPostResponse {
   isWondering: boolean;
 }
 
+interface AnswerForm {
+  answer: string;
+}
+
+interface AnswerResponse {
+  ok: boolean;
+  answer: Answer;
+}
+
 const CommunityPostDetail: NextPage = () => {
-  // const { user, isLoading } = useUser();
   const router = useRouter();
+  const { register, handleSubmit, reset } = useForm<AnswerForm>();
   const { data, mutate } = useSWR<CommunityPostResponse>(
     router?.query?.id ? `/api/posts/${router?.query?.id}` : null
   );
   // 404 Error 처리 해주기
-  const [wonder] = useMutation(`/api/posts/${router.query.id}/wonder`);
+  const [wonder, { loading }] = useMutation(
+    `/api/posts/${router.query.id}/wonder`
+  );
+  const [sendAnswer, { data: answerData, loading: answerLoading }] =
+    useMutation<AnswerResponse>(`/api/posts/${router.query.id}/answer`);
   const onWonderClick = () => {
     if (!data) return;
     mutate(
@@ -56,8 +71,22 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    wonder({});
+    if (!loading) wonder({});
   };
+
+  const onValid = (form: AnswerForm) => {
+    console.log(form);
+    if (answerLoading) return;
+    sendAnswer(form);
+  };
+
+  useEffect(() => {
+    if (answerData && answerData.ok) {
+      reset();
+      mutate();
+    }
+  }, [answerData, reset]);
+
   return (
     <Layout canGoBack>
       <div className="space-y-3">
@@ -85,7 +114,13 @@ const CommunityPostDetail: NextPage = () => {
             comment={answer.answer}
           />
         ))}
-        <TextBox placeholder="answer" buttonContext="Reply" />
+        <form onSubmit={handleSubmit(onValid)}>
+          <TextBox
+            placeholder="answer"
+            buttonContext={answerLoading ? "Loading..." : "Reply"}
+            register={register("answer", { required: true, minLength: 5 })}
+          />
+        </form>
       </div>
     </Layout>
   );
