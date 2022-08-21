@@ -15,19 +15,21 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  phone      String?     @unique // not required
-  email      String?     @unique // not required
-  avatar     String?
-  name       String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt // User가 update 될때 갱신되도록 
-  tokens     Token[]
-  products   Product[]
-  favs       Fav[]
-  posts      Post[]
-  answers    Answer[]
-  wonderings Wondering[]
+  id              Int         @id @default(autoincrement())
+  phone           String?     @unique // not required
+  email           String?     @unique // not required
+  avatar          String?
+  name            String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt // User가 update 될때 갱신되도록 
+  tokens          Token[]
+  products        Product[]
+  favs            Fav[]
+  posts           Post[]
+  answers         Answer[]
+  wonderings      Wondering[]
+  writtedReviews  Review[]    @relation(name: "writtedReviews")
+  receviedReviews Review[]    @relation(name: "receviedReviews")
 }
 
 model Token {
@@ -94,4 +96,15 @@ model Wondering {
   postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  review       String   @db.MediumText
+  createdBy    User     @relation(name: "writtedReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createdFor   User     @relation(name: "receviedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
 }

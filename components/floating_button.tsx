@@ -8,7 +8,7 @@ interface FloatingButtonProps {
 const FloatingButton = ({ pathData, url }: FloatingButtonProps) => {
   return (
     <Link href={url}>
-      <a className="fixed bottom-28 right-8 p-3 bg-orange-400 hover:bg-orange-500 transition-colors rounded-full text-white cursor-pointer">
+      <a className="fixed bottom-28 right-[calc(50%-265px)] p-3 bg-orange-400 hover:bg-orange-500 transition-colors rounded-full text-white cursor-pointer">
         <svg
           className="h-6 w-6"
           xmlns="http://www.w3.org/2000/svg"
