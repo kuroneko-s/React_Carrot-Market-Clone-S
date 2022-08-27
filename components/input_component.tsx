@@ -65,7 +65,6 @@ const InputComponent = ({
             type="number"
             className="py-2 px-4 appearance-none w-full border-transparent border-gray-300 shadow-sm placeholder-gray-400 rounded-md rounded-l-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             {...register}
-            required
           />
         </div>
       ) : null}

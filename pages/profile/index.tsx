@@ -2,13 +2,29 @@ import type { NextPage } from "next";
 import Layout from "@components/layout";
 import * as ProfileComponent from "@components/profile";
 import RoundButton from "@components/round_button";
+import useUser from "@libs/client/useUser";
+import useSWR from "swr";
+import { Review, User } from "@prisma/client";
+
+interface ReviewWithUser extends Review {
+  createdBy: User;
+}
+
+interface ReviewResponse {
+  ok: boolean;
+  reviews: ReviewWithUser[];
+}
 
 const Profile: NextPage = () => {
+  const { user, isLoading } = useUser();
+  const { data } = useSWR<ReviewResponse>("/api/reviews");
+
   return (
     <Layout title="나의 당근" hasTabBar>
       <div className="space-y-6">
         <ProfileComponent.default
-          context="Steve Jebs"
+          id={user?.id}
+          context={isLoading ? "Loading..." : user?.name}
           subContext="View profile &rarr;"
           url="/profile/edit"
         />
@@ -30,26 +46,23 @@ const Profile: NextPage = () => {
             url="/profile/loved"
           />
         </div>
-
-        <div className="space-y-5">
-          <ProfileComponent.default
-            context="니꼬"
-            subContext=""
-            isSmall
-            noneText
-          />
-
-          <div>
-            <p className="text-base text-gray-900">
-              Normally, both your asses would be dead as fucking fried chicken,
-              but you happen to pull this shit while I&apos;m in a transitional
-              period so I don&apos;t wanna kill you, I wanna help you. But I
-              can&apos;t give you this case, it don&apos;t belong to me.
-              Besides, I&apos;ve already been through too much shit this morning
-              over this case to hand it over to your dumb ass.
-            </p>
+        {data?.reviews.map((review) => (
+          <div key={review.id}>
+            <div className="space-y-2">
+              <ProfileComponent.default
+                id={review.id + ""}
+                context={review.createdBy.name}
+                subContext=""
+                isSmall
+                noneText
+                score={review.score}
+              />
+              <div>
+                <p className="text-base text-gray-900">{review.review}</p>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </Layout>
   );
