@@ -23,10 +23,11 @@ const Profile: NextPage = () => {
     <Layout title="나의 당근" hasTabBar>
       <div className="space-y-6">
         <ProfileComponent.default
-          id={user?.id}
+          id={user?.id + ""}
           context={isLoading ? "Loading..." : user?.name}
           subContext="View profile &rarr;"
           url="/profile/edit"
+          avatarURL={user?.avatar}
         />
 
         <div className="flex items-center justify-between px-12">

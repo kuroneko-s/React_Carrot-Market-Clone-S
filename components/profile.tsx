@@ -9,6 +9,7 @@ interface ProfileProps {
   url?: string;
   id: string;
   score?: number;
+  avatarURL?: string | undefined | null;
 }
 
 const Profile = ({
@@ -19,15 +20,26 @@ const Profile = ({
   url = "",
   id,
   score = 0,
+  avatarURL,
 }: ProfileProps) => {
   return (
     <div className="flex items-center  py-3 space-x-3">
-      <div
-        className={cls(
-          "bg-slate-300 rounded-full h-12 w-12",
-          isSmall ? "h-10 w-10" : ""
-        )}
-      />
+      {avatarURL ? (
+        <img
+          src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${avatarURL}/avatar`}
+          className={cls(
+            "bg-slate-300 rounded-full h-12 w-12",
+            isSmall ? "h-10 w-10" : ""
+          )}
+        />
+      ) : (
+        <div
+          className={cls(
+            "bg-slate-300 rounded-full h-12 w-12",
+            isSmall ? "h-10 w-10" : ""
+          )}
+        />
+      )}
       <div className="flex flex-col justify-start">
         <p
           className={cls(

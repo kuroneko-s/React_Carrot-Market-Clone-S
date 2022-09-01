@@ -59,11 +59,19 @@ const ItemDetail: NextPage = () => {
     <Layout canGoBack>
       <div className="pt-3 pb-6">
         <div>
-          <div className="bg-slate-300 h-96 rounded-md w-full" />
+          {data?.product.image ? (
+            <img
+              src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${data?.product.image}/public`}
+            />
+          ) : (
+            <div className="bg-slate-300 h-96 rounded-md w-full" />
+          )}
+
           <Profile
             context={data?.product?.user.name}
             subContext="View profile &rarr;"
             id={data?.product?.user.id + ""}
+            avatarURL={data?.product.user.avatar}
           />
 
           <div className="mt-2 space-y-2">

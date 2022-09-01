@@ -4,7 +4,7 @@ import InputComponent from "@components/input_component";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useMutation from "@libs/client/useMutation";
 
 interface EditProfilForm {
@@ -12,6 +12,7 @@ interface EditProfilForm {
   phone?: string;
   name?: string;
   formsErrors?: string;
+  avatar?: FileList;
 }
 
 interface EditProfileResponse {
@@ -27,6 +28,7 @@ const EditProfile: NextPage = () => {
     handleSubmit,
     setError,
     formState: { errors },
+    watch,
   } = useForm<EditProfilForm>();
 
   const [editProfile, { data, loading }] =
@@ -36,9 +38,13 @@ const EditProfile: NextPage = () => {
     if (user?.email) setValue("email", user?.email);
     if (user?.phone) setValue("phone", user?.phone);
     if (user?.name) setValue("name", user?.name);
+    if (user?.avatar)
+      setAvatarPreview(
+        `https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${user?.avatar}/avatar`
+      );
   }, [user, setValue]);
 
-  const onValid = ({ email, phone, name }: EditProfilForm) => {
+  const onValid = async ({ email, phone, name, avatar }: EditProfilForm) => {
     if (loading) return;
     if (email === "" && phone === "" && name === "") {
       return setError("formsErrors", {
@@ -46,19 +52,56 @@ const EditProfile: NextPage = () => {
       });
     }
 
-    editProfile({ email, phone, name });
+    if (avatar && avatar.length > 0 && user) {
+      const { uploadURL } = await (await fetch(`/api/files`)).json();
+
+      const form = new FormData();
+      form.append("file", avatar[0], user?.id + "");
+
+      const {
+        result: { id },
+      } = await (
+        await fetch(uploadURL, {
+          method: "POST",
+          body: form,
+        })
+      ).json();
+      console.log("id - ", id);
+      // upload file to CF URL
+      editProfile({
+        email,
+        phone,
+        name,
+        avatarId: id,
+      });
+    } else {
+      editProfile({ email, phone, name });
+    }
   };
   useEffect(() => {
     if (data && !data.ok && data.errors) {
       setError("formsErrors", { message: data.errors });
     }
   }, [data, setError]);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  const avatar = watch("avatar");
+
+  useEffect(() => {
+    if (avatar && avatar.length > 0) {
+      const file = avatar[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  }, [avatar]);
 
   return (
     <Layout canGoBack>
       <form className="space-y-4" onSubmit={handleSubmit(onValid)}>
         <div className="flex items-center space-x-3">
-          <div className="w-14 h-14 rounded-full bg-slate-400" />
+          {avatarPreview ? (
+            <img src={avatarPreview} className="w-14 h-14 rounded-full" />
+          ) : (
+            <div className="w-14 h-14 rounded-full bg-slate-400" />
+          )}
           <label
             htmlFor="picture"
             className="cursor-pointer py-2 px-3 border border-gray-300 rounded-md text-sm font-bold focus:ring-2 focus:outline-none focus:ring-offset-2 focus:ring-orange-400 text-gray-700"
@@ -69,6 +112,7 @@ const EditProfile: NextPage = () => {
               type="file"
               className="hidden"
               accept="image/*"
+              {...register("avatar")}
             />
           </label>
         </div>
