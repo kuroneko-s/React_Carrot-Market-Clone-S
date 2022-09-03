@@ -8,7 +8,6 @@ import { Stream } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
-import { useEffect } from "react";
 
 interface StreamMessage {
   id: number;
@@ -77,11 +76,17 @@ const LiveDetail: NextPage = () => {
       mutate();
     }
   }, [sendMessageData, mutate]); */
+
   return (
     <Layout canGoBack>
       <div className="space-y-6">
         <div className="pb-12">
-          <div className="w-full bg-slate-300 aspect-video rounded-md shadow-sm" />
+          <iframe
+            className="w-full aspect-video shadow-sm rounded-sm"
+            src={`https://customer-l1cj5o0rluzitqwm.cloudflarestream.com/${data?.stream.cloudflareId}/iframe`}
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            allowFullScreen={true}
+          ></iframe>
           <div className="mt-2 space-y-2">
             <h1 className="text-3xl font-bold text-gray-900">
               {data?.stream?.name}
@@ -90,6 +95,20 @@ const LiveDetail: NextPage = () => {
             <p className="text-base text-gray-700">
               {data?.stream?.description}
             </p>
+            <div className="bg-orange-300 rounded-md space-y-2 py-2 px-2 font-semibold">
+              <p>
+                <span className="text-lg">cloudflareId : </span>
+                <span className="text-sm">{data?.stream.cloudflareId}</span>
+              </p>
+              <p>
+                <span className="text-lg">cloudflareKey : </span>
+                <span className="text-sm">{data?.stream.cloudflareKey}</span>
+              </p>
+              <p>
+                <span className="text-lg">cloudflareUrl : </span>
+                <span className="text-sm">{data?.stream.cloudflareUrl}</span>
+              </p>
+            </div>
           </div>
         </div>
 

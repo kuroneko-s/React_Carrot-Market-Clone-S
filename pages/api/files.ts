@@ -8,7 +8,7 @@ async function handler(
 ) {
   const response = await (
     await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.IMAGES_ID}/images/v1/direct_upload`,
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/images/v1/direct_upload`,
       {
         method: "POST",
         headers: {

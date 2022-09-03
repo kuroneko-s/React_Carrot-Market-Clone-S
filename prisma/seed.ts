@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 
 async function main() {
-  [...Array.from(Array(500).keys())].forEach(async (item) => {
+  /*  [...Array.from(Array(500).keys())].forEach(async (item) => {
     setTimeout(async () => {
       await client.stream.create({
         data: {
@@ -19,7 +19,7 @@ async function main() {
       });
       console.log(`${item}/500`);
     }, 1000);
-  });
+  }); */
 }
 
 main()

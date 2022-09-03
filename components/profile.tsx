@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cls } from "@libs/server/utils";
+import Image from "next/image";
 
 interface ProfileProps {
   context: string | undefined;
@@ -25,12 +26,14 @@ const Profile = ({
   return (
     <div className="flex items-center  py-3 space-x-3">
       {avatarURL ? (
-        <img
+        <Image
           src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${avatarURL}/avatar`}
           className={cls(
             "bg-slate-300 rounded-full h-12 w-12",
             isSmall ? "h-10 w-10" : ""
           )}
+          width={48}
+          height={48}
         />
       ) : (
         <div

@@ -9,6 +9,7 @@ async function handler(
 ) {
   const {
     query: { id },
+    session: { user },
   } = req;
 
   const stream = await client.stream.findUnique({
@@ -30,6 +31,33 @@ async function handler(
       },
     },
   });
+
+  const isOwner = stream?.userId === user?.id;
+
+  if (!isOwner && stream) {
+    stream.cloudflareKey = "undefined";
+    stream.cloudflareUrl = "undefined";
+    /*     const streamOwner = await client.stream.findUnique({
+      where: {
+        id: +id!.toString(),
+      },
+      include: {
+        messages: {
+          select: {
+            id: true,
+            message: true,
+            user: {
+              select: {
+                avatar: true,
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+ */
+  }
 
   res.json({
     ok: true,

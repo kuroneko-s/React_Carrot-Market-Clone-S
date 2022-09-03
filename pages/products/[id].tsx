@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
+import Image from "next/image";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -60,9 +61,13 @@ const ItemDetail: NextPage = () => {
       <div className="pt-3 pb-6">
         <div>
           {data?.product.image ? (
-            <img
-              src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${data?.product.image}/public`}
-            />
+            <div className="relative w-full pb-96">
+              <Image
+                className="object-cover"
+                src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${data?.product.image}/public`}
+                layout="fill"
+              />
+            </div>
           ) : (
             <div className="bg-slate-300 h-96 rounded-md w-full" />
           )}
