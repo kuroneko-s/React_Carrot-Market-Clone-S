@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+  @apply text-red-500 my-5;
+}
+
+p {
+  @apply mb-2 text-gray-500;
+}

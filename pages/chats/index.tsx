@@ -8,6 +8,7 @@ const Chats: NextPage = () => {
       <div className="divide-y-[1px]">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Profile
+            id={"" + i}
             key={i}
             context="Steve Jebs"
             subContext="See you tomorrow"

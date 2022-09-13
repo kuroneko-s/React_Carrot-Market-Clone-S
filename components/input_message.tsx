@@ -1,7 +1,7 @@
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface MessageInputParameter {
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
 }
 
 const InputMessage = ({ register }: MessageInputParameter) => {

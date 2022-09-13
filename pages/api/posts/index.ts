@@ -36,8 +36,10 @@ async function handler(
     const {
       query: { latitude, longitude },
     } = req;
-    const parsedLatitude = parseFloat(latitude?.toString());
-    const parsedLongitude = parseFloat(longitude?.toString());
+    const lat = latitude?.toString() || "";
+    const log = longitude?.toString() || "";
+    const parsedLatitude = parseFloat(lat);
+    const parsedLongitude = parseFloat(log);
 
     const posts = await client.post.findMany({
       include: {

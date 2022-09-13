@@ -1,4 +1,4 @@
-import { withIronSessionApiRoute } from "iron-session/next";
+import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
 
 declare module "iron-session" {
   interface IronSessionData {
@@ -23,3 +23,6 @@ export function withApiSession(fn: any) {
 }
 
 // SSR session
+export function withSsrSession(handler: any) {
+  return withIronSessionSsr(handler, cookieOptions);
+}

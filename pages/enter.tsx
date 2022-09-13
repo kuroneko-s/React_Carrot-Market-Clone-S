@@ -6,6 +6,20 @@ import ButtonComponent from "@components/button_component";
 import InputComponent from "@components/input_component";
 import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+// import Head from "next/head";
+
+const Head: any = dynamic(
+  //@ts-ignore
+  () =>
+    new Promise((resolve) =>
+      setTimeout(() => {
+        resolve(import("next/head"));
+      }, 10000)
+    ),
+  { ssr: false, /* loading: () => <span>Loading...</span> */ suspense: true }
+);
 
 interface EnterForm {
   email?: string;
@@ -58,6 +72,11 @@ export default function Enter() {
   }, [tokenData, router]);
   return (
     <Layout title="로그인" hasTabBar>
+      <Suspense fallback="Loading...">
+        <Head>
+          <title>로그인</title>
+        </Head>
+      </Suspense>
       <div className="mt-12">
         <h3 className="font-bold text-3xl text-center">Enter to Carrot</h3>
         <div className="mt-8">

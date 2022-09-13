@@ -18,6 +18,7 @@ async function handler(
       message: body.message,
       stream: {
         connect: {
+          //@ts-ignore
           id: +id?.toString(),
         },
       },
