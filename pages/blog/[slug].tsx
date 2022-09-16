@@ -22,11 +22,11 @@ export function getStaticPaths<GetStaticProps>() {
     return { params: { slug: name } };
   });
 
-  return { paths: filesName, fallback: false };
+  return { paths: [], fallback: "blocking" };
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { content } = matter.read(`./posts/${ctx.params.slug}.md`);
+  const { content } = matter.read(`./posts/${ctx?.params?.slug}.md`);
 
   const { value } = await unified()
     .use(remarkParse)

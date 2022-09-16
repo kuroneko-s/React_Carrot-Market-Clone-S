@@ -8,6 +8,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import useCoords from "./../../libs/client/useCoords";
+import client from "@libs/client/client";
 
 interface PostWithUser extends Post {
   user: User;
@@ -18,23 +19,21 @@ interface PostWithUser extends Post {
 }
 
 interface PostsResponse {
-  ok: boolean;
   posts: PostWithUser[];
 }
 
-const Community: NextPage = () => {
-  const { latitude, longitude } = useCoords();
+const Community: NextPage<PostsResponse> = ({ posts }) => {
+  /*   const { latitude, longitude } = useCoords();
   const { data } = useSWR<PostsResponse>(
     latitude && longitude
       ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
       : null
-  );
-  console.log(data);
+  ); */
 
   return (
     <Layout title="동네생활" hasTabBar>
       <div className="space-y-4">
-        {data?.posts?.map((post) => (
+        {posts?.map((post) => (
           <Link key={post.id} href={`/community/${post.id}`}>
             <div className="flex flex-col items-start space-y-3 cursor-pointer">
               <DivistionItem context="동네생활" />
@@ -44,8 +43,8 @@ const Community: NextPage = () => {
                 <span>18시간 전</span>
               </div>
               <SubElements
-                questionCount={post._count.wonderings}
-                answerCount={post._count.answers}
+                questionCount={post?._count?.wonderings}
+                answerCount={post?._count?.answers}
               />
             </div>
           </Link>
@@ -60,5 +59,16 @@ const Community: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getStaticProps() {
+  console.log("Building statically");
+  const posts = await client.post.findMany({ include: { user: true } });
+
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  };
+}
 
 export default Community;

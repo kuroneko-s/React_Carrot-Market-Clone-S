@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import ButtonWith from "@components/button_with";
 import Layout from "@components/layout";
 import Profile from "@components/profile";
@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
 import { Product, User } from "@prisma/client";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import Image from "next/image";
+import client from "@libs/client/client";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -22,7 +22,11 @@ interface ItemDetailResponse {
   isLiked: boolean;
 }
 
-const ItemDetail: NextPage = () => {
+const ItemDetail: NextPage<ItemDetailResponse> = ({
+  product,
+  relatedProducts,
+  isLiked,
+}) => {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const { mutate } = useSWRConfig();
@@ -60,11 +64,11 @@ const ItemDetail: NextPage = () => {
     <Layout canGoBack>
       <div className="pt-3 pb-6">
         <div>
-          {data?.product.image ? (
+          {product.image ? (
             <div className="relative w-full pb-96">
               <Image
                 className="object-cover"
-                src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${data?.product.image}/public`}
+                src={`https://imagedelivery.net/Q7z_83gXeajsw2vGE0onLQ/${product.image}/public`}
                 layout="fill"
               />
             </div>
@@ -73,29 +77,27 @@ const ItemDetail: NextPage = () => {
           )}
 
           <Profile
-            context={data?.product?.user.name}
+            context={product?.user.name}
             subContext="View profile &rarr;"
-            id={data?.product?.user.id + ""}
-            avatarURL={data?.product.user.avatar}
+            id={product?.user.id + ""}
+            avatarURL={product.user.avatar}
           />
 
           <div className="mt-2 space-y-2">
             <h1 className="text-3xl font-bold text-gray-900">
-              {data?.product?.name}
+              {product?.name}
             </h1>
-            <p className="text-2xl">{data?.product?.price}</p>
-            <p className="text-base text-gray-700">
-              {data?.product?.description}
-            </p>
+            <p className="text-2xl">{product?.price}</p>
+            <p className="text-base text-gray-700">{product?.description}</p>
             <ButtonWith
               buttonContext="Talk to seller"
               subBtnPath={
-                data?.isLiked
+                isLiked
                   ? "M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
                   : "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               }
               clickHandler={onFavClick}
-              isLiked={data?.isLiked}
+              isLiked={isLiked}
             />
           </div>
         </div>
@@ -105,7 +107,7 @@ const ItemDetail: NextPage = () => {
             Similar items
           </h2>
           <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-            {data?.relatedProducts?.map((product) => (
+            {relatedProducts?.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`}>
                 <div key={product.id} className="cursor-pointer">
                   <div className="bg-slate-300 h-56 w-full rounded-md" />
@@ -119,6 +121,65 @@ const ItemDetail: NextPage = () => {
       </div>
     </Layout>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  if (!ctx?.params?.id) {
+    return {
+      props: {},
+    };
+  }
+
+  const product = await client.product.findUnique({
+    where: {
+      id: +ctx?.params?.id.toString(),
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+        },
+      },
+    },
+  });
+
+  const terms = product?.name.split(" ").map((word) => ({
+    name: {
+      contains: word,
+    },
+  }));
+
+  const relatedProducts = await client.product.findMany({
+    where: {
+      OR: terms,
+      AND: {
+        id: {
+          not: +ctx?.params?.id.toString(),
+        },
+      },
+    },
+  });
+
+  const isLiked = false;
+
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+
+  return {
+    props: {
+      product: JSON.parse(JSON.stringify(product)),
+      relatedProducts: JSON.parse(JSON.stringify(relatedProducts)),
+      isLiked,
+    },
+  };
 };
 
 export default ItemDetail;

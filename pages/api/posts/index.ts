@@ -7,6 +7,8 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+
   const {
     body: { question, latitude, longitude },
     session: { user },
@@ -25,6 +27,8 @@ async function handler(
         },
       },
     });
+
+    await res.revalidate("/community");
 
     res.json({
       ok: true,
