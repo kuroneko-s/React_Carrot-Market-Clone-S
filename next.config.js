@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  experimental: {
+    serverComponents: true,
+    runtime: "experimental-edge",
+  },
   images: {
     domains: [
       "imagedelivery.net",

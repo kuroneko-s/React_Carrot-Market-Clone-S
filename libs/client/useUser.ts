@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useSWR from "swr";
 import { User } from "@prisma/client";
 

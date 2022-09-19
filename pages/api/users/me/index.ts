@@ -7,6 +7,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   if (req.method === "GET") {
     const profile = await client.user.findUnique({
       where: {

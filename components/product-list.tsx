@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { ProductWithCnt } from "./../pages/index";
 import ItemComponent from "./item_component";
@@ -16,7 +17,13 @@ interface SalesResponse {
 }
 
 export default function ProductList({ kind }: ProductListProps) {
-  const { data } = useSWR<SalesResponse>(`/api/users/me/${kind}`);
+  const [url, setUrl] = useState<String | null>(null);
+
+  useEffect(() => {
+    setUrl(`/api/users/me/${kind}`);
+  }, [kind]);
+
+  const { data } = useSWR<SalesResponse>(url);
 
   return data ? (
     <>

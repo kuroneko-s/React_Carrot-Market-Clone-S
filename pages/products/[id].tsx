@@ -32,7 +32,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
   const { mutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     // optional query 사용시 이렇게 사용함
-    router.query.id ? `/api/products/${router.query.id}` : null
+    router?.query?.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
 
